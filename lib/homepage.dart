@@ -1,9 +1,23 @@
+import 'dart:html';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:cloud_firestore_web/cloud_firestore_web.dart';
+////import 'package:provider/provider.dart';
+//import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
+//import 'package:firebase_core_web/firebase_core_web.dart';
 import 'package:flutter/material.dart';
+import 'package:maghari_flutter/models/items.dart';
+import 'package:maghari_flutter/firebase_options.dart';
 import 'package:maghari_flutter/main.dart';
 import 'package:maghari_flutter/navbar.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp2());
 }
 
@@ -14,6 +28,7 @@ class MyApp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'HomePage',
       theme: ThemeData(
         // This is the theme of your application.
@@ -51,35 +66,91 @@ class MyHomePage2 extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage2> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      // appBar: AppBar(
-      //   // Here we take the value from the MyHomePage object that was created by
-      //   // the App.build method, and use it to set our appbar title.
-      //   title: Text(widget.title),
-      body: Container(
-        child: LeftDrawer(),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: LeftDrawer(),
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class ForData extends StatefulWidget {
+  const ForData({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ForDataState();
+}
+
+class _ForDataState extends State<ForData> {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final Stream<QuerySnapshot> _itemStream =
+      FirebaseFirestore.instance.collection('items').snapshots();
+
+  List<Item> _items = [];
+
+  @override
+  void initState() {
+    super.initState();
+    List<Item> all_items = [];
+    db.collection("items").get().then(
+      (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          Item item = Item(
+            id: docSnapshot.id,
+            name: docSnapshot.data()['name'],
+            description: docSnapshot.data()['description'],
+            img: docSnapshot.data()['img'],
+          );
+          all_items.add(item);
+          print(docSnapshot.id);
+          print(docSnapshot.data()['name']);
+          print(docSnapshot.data()['description']);
+        }
+        setState(() {
+          _items = all_items;
+        });
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+  }
+
+  Widget build(BuildContext context) {
+    return Container(
+      child: StreamBuilder<QuerySnapshot>(
+          stream: _itemStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading");
+            }
+            return ListView(
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
+                Item item = Item(
+                  id: document.id,
+                  name: data['name'],
+                  description: data['description'],
+                  img: data['img'],
+                );
+                return ListTile(
+                  title: Text(data['name']),
+                  subtitle: Text(data['description']),
+                  // leading: Image.asset(
+                  //   "data['img']",
+                  //   width: 50,
+                  //   height: 50,
+                  // ),
+                );
+              }).toList(),
+            );
+          }),
     );
   }
 }

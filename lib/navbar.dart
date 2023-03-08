@@ -58,9 +58,9 @@ class LeftDrawer extends StatelessWidget {
                   )
                 : null,
             drawer: left(controller: _controller),
-            endDrawer: right(
-              controller: _controller,
-            ),
+            // endDrawer: right(
+            //   controller: _controller,
+            // ),
             body: Row(
               children: [
                 if (!isSmallScreen)
@@ -74,10 +74,10 @@ class LeftDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (!isSmallScreen)
-                  right(
-                    controller: _controller,
-                  ),
+                // if (!isSmallScreen)
+                //   right(
+                //     controller: _controller,
+                //   ),
                 // Expanded(
                 //   child: Container(
                 //     child: right(
@@ -288,7 +288,10 @@ class _ScreensExample extends StatelessWidget {
         switch (controller.selectedIndex) {
           case 0:
             return Scaffold(
-              body: Center(child: Text("Dashboard")),
+              body: Container(
+                //child: Text("Dashboard"),
+                child: ForData(),
+              ),
             );
           case 2:
             return Scaffold(
@@ -340,7 +343,9 @@ class _ScreensExample extends StatelessWidget {
             );
           default:
             return Scaffold(
-              body: Container(),
+              body: Container(
+                child: LeftDrawer(),
+              ),
               //ForData(),
             );
         }

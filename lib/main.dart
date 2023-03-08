@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:maghari_flutter/homepage.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+//com.example.maghari_flutter
+//1A:D2:28:0E:94:07:F9:8B:37:0B:0D:69:3C:D6:12:3E:03:65:20:60
+
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -66,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Color(0xfff0f0f0);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -83,29 +95,23 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
 
         child: Container(
-            height: MediaQuery.of(context).size.height,
+            // backgroundColor: NeumorphicTheme.baseColor(context),
+            //color: Color.fromARGB(255, 177, 177, 177),
+            height: 500,
             //height: MediaQuery.of(context).orientation.portrait,
-            width: MediaQuery.of(context).size.width,
-            // Column is also a layout widget. It takes a list of children and
-
-            // children horizontally, and tries to be as tall as its parent.
-            //
-            // Invoke "debug painting" (press "p" in the console, choose the
-            // "Toggle Debug Paint" action from the Flutter Inspector in Android
-            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-            // to see the wireframe for each widget.
-            //
-            // Column has various properties to control how it sizes itself and
-            // how it positions its children. Here we use mainAxisAlignment to
-            // center the children vertically; the main axis here is the vertical
-            // axis because Columns are vertical (the cross axis would be
-            // horizontal).
-
+            width: 600,
+            //primaryColor: color,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(154, 205, 205, 205),
+              border: Border.all(color: Color.fromARGB(255, 132, 132, 132)),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(),
                 Padding(padding: EdgeInsets.only(top: 20)),
                 Container(
                   width: 120,
@@ -139,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: EdgeInsets.only(top: 20),
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Community Center',
@@ -164,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Padding(padding: EdgeInsets.only(top: 80)),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     NeumorphicButton(
@@ -176,9 +182,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   builder: (context) => new MyApp2()));
                         },
                         style: NeumorphicStyle(
-                          shape: NeumorphicShape.convex,
+                          shape: NeumorphicShape.flat,
                           boxShape: NeumorphicBoxShape.roundRect(
-                              BorderRadius.circular(8)),
+                              BorderRadius.circular(10)),
                         ),
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
@@ -196,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: NeumorphicStyle(
                           shape: NeumorphicShape.flat,
                           boxShape: NeumorphicBoxShape.roundRect(
-                              BorderRadius.circular(8)),
+                              BorderRadius.circular(10)),
                         ),
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
