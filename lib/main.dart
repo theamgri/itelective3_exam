@@ -95,14 +95,23 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
 
         child: Container(
-            // backgroundColor: NeumorphicTheme.baseColor(context),
-            //color: Color.fromARGB(255, 177, 177, 177),
             height: 500,
-            //height: MediaQuery.of(context).orientation.portrait,
             width: 600,
-            //primaryColor: color,
             decoration: BoxDecoration(
-              color: Color.fromARGB(154, 205, 205, 205),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black54,
+                    blurRadius: 20, // shadow radius
+                    offset: Offset(5, 10), // shadow offset
+                    spreadRadius:
+                        0.1, // The amount the box should be inflated prior to applying the blur
+                    blurStyle: BlurStyle.inner // set blur style
+                    ),
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.grey.shade50, Colors.grey.shade200]),
               border: Border.all(color: Color.fromARGB(255, 132, 132, 132)),
               borderRadius: BorderRadius.all(
                 Radius.circular(10),
@@ -173,42 +182,72 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    NeumorphicButton(
-                        margin: EdgeInsets.only(top: 12),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new MyApp2()));
-                        },
-                        style: NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape: NeumorphicBoxShape.roundRect(
-                              BorderRadius.circular(10)),
-                        ),
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          "Login with Google",
-                          style: TextStyle(color: Colors.blue),
-                        )),
-                    NeumorphicButton(
-                        margin: EdgeInsets.only(top: 12),
-                        onPressed: () {
-                          // NeumorphicTheme.of(context).themeMode =
-                          //     NeumorphicTheme.isUsingDark(context)
-                          //         ? ThemeMode.light
-                          //         : ThemeMode.dark;
-                        },
-                        style: NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape: NeumorphicBoxShape.roundRect(
-                              BorderRadius.circular(10)),
-                        ),
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          "Login with as Guest",
-                          style: TextStyle(color: Colors.blue),
-                        )),
+                    Container(
+                      width: 200,
+                      child: NeumorphicButton(
+                          margin: EdgeInsets.only(top: 5),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => new MyApp2()));
+                          },
+                          style: NeumorphicStyle(
+                            color:
+                                Colors.grey.shade50, // set the color to green
+                            shadowDarkColor: Color.fromARGB(176, 110, 110,
+                                110), // set the shadow color to green shade 700
+                            shadowLightColor:
+                                Color.fromARGB(239, 207, 207, 207),
+                            shape: NeumorphicShape.flat,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(10)),
+                          ),
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            "Login with Google",
+                            style: TextStyle(
+                                height: 0.8,
+                                fontSize: 15,
+                                fontFamily: 'Nunito',
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(111, 0, 0, 0)),
+                          )),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 3)),
+                    Container(
+                        width: 200,
+                        child: NeumorphicButton(
+                            margin: EdgeInsets.only(top: 5),
+                            onPressed: () {
+                              // NeumorphicTheme.of(context).themeMode =
+                              //     NeumorphicTheme.isUsingDark(context)
+                              //         ? ThemeMode.light
+                              //         : ThemeMode.dark;
+                            },
+                            style: NeumorphicStyle(
+                              color:
+                                  Colors.grey.shade50, // set the color to green
+                              shadowDarkColor: Color.fromARGB(176, 110, 110,
+                                  110), // set the shadow color to green shade 700
+                              shadowLightColor:
+                                  Color.fromARGB(239, 207, 207, 207),
+                              shape: NeumorphicShape.flat,
+                              boxShape: NeumorphicBoxShape.roundRect(
+                                  BorderRadius.circular(10)),
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              "Login with as Guest",
+                              style: TextStyle(
+                                  height: 0.8,
+                                  fontSize: 15,
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(117, 0, 0, 0)),
+                            ))),
                   ],
                 )
               ],

@@ -2,10 +2,9 @@ import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:cloud_firestore_web/cloud_firestore_web.dart';
-////import 'package:provider/provider.dart';
-//import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
-//import 'package:firebase_core_web/firebase_core_web.dart';
+import 'package:banner_listtile/banner_listtile.dart';
 import 'package:flutter/material.dart';
 import 'package:maghari_flutter/models/items.dart';
 import 'package:maghari_flutter/firebase_options.dart';
@@ -129,7 +128,8 @@ class _ForDataState extends State<ForData> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Text("Loading");
             }
-            return ListView(
+            return ResponsiveGridList(
+              minItemWidth: 800,
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
@@ -139,14 +139,65 @@ class _ForDataState extends State<ForData> {
                   description: data['description'],
                   img: data['img'],
                 );
-                return ListTile(
-                  title: Text(data['name']),
-                  subtitle: Text(data['description']),
-                  // leading: Image.asset(
-                  //   "data['img']",
-                  //   width: 50,
-                  //   height: 50,
-                  // ),
+                return GridTile(
+                  child: Container(
+                    width: 500,
+                    margin: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: 20,
+                          offset: Offset(5, 10),
+                          spreadRadius: 0.1,
+                          blurStyle: BlurStyle.inner,
+                        ),
+                      ],
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Colors.grey.shade50, Colors.grey.shade200]),
+                      border:
+                          Border.all(color: Color.fromARGB(255, 132, 132, 132)),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(padding: const EdgeInsets.only(top: 10)),
+                        Image.network(
+                          data['img'],
+                          width: 800,
+                          height: 200,
+                        ),
+                        Padding(padding: const EdgeInsets.all(10)),
+                        Text(
+                          data['name'],
+                          style: TextStyle(
+                            height: 1,
+                            fontSize: 18,
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w800,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 30, right: 30),
+                            child: Text(
+                              data['description'],
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 15,
+                                fontFamily: 'Nunito',
+                                fontWeight: FontWeight.w300,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            )),
+                        Padding(padding: EdgeInsets.only(top: 10)),
+                      ],
+                    ),
+                  ),
                 );
               }).toList(),
             );

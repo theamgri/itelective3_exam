@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:maghari_flutter/homepage.dart';
+import 'package:maghari_flutter/main.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 //import 'package:flutter_application_1/rightnavbar.dart';
 
@@ -24,7 +25,7 @@ class LeftDrawer extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primaryColor,
         canvasColor: Color.fromARGB(255, 78, 78, 78),
-        scaffoldBackgroundColor: Color.fromARGB(255, 78, 78, 78),
+        scaffoldBackgroundColor: Color.fromARGB(154, 205, 205, 205),
         textTheme: const TextTheme(
           headlineSmall: TextStyle(
             color: Colors.white,
@@ -110,13 +111,18 @@ class left extends StatelessWidget {
       theme: SidebarXTheme(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 196, 196, 196),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.grey.shade50,
+                Colors.grey.shade200
+              ]), // Colors.grey.shade200,
         ),
-        hoverColor: Color.fromARGB(255, 253, 116, 123),
-        textStyle: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.7)),
-        selectedTextStyle:
-            const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+        hoverColor: NeumorphicTheme.baseColor(context),
+        textStyle:
+            TextStyle(color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.7)),
+        selectedTextStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
         itemTextPadding: const EdgeInsets.only(left: 30),
         selectedItemTextPadding: const EdgeInsets.only(left: 30),
         itemDecoration: BoxDecoration(
@@ -130,27 +136,31 @@ class left extends StatelessWidget {
           border: Border.all(
             color: actionColor.withOpacity(0.37),
           ),
-          color: Color.fromARGB(255, 253, 116, 123),
+          color: NeumorphicTheme.baseColor(context),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.28),
+              color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.28),
               blurRadius: 30,
             )
           ],
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.grey.shade50, Colors.grey.shade200]),
         ),
         iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
+          color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
           size: 20,
         ),
         selectedIconTheme: const IconThemeData(
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: Color.fromARGB(255, 0, 0, 0),
           size: 20,
         ),
       ),
       extendedTheme: const SidebarXTheme(
         width: 200,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 78, 78, 78),
+          color: Color.fromARGB(154, 224, 224, 224),
         ),
       ),
       footerDivider: divider,
@@ -191,79 +201,13 @@ class left extends StatelessWidget {
           icon: Icons.settings,
           label: 'Profile',
         ),
-      ],
-    );
-  }
-}
-
-class right extends StatelessWidget {
-  const right({
-    Key? key,
-    required SidebarXController controller,
-  })  : _controller = controller,
-        super(key: key);
-
-  final SidebarXController _controller;
-
-  @override
-  Widget build(BuildContext context) {
-    //final theme = Theme.of(context);
-    return SidebarX(
-      controller: _controller,
-      theme: SidebarXTheme(
-        margin: const EdgeInsets.all(0),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 78, 78, 78),
-        ),
-        hoverColor: Color.fromARGB(255, 253, 116, 123),
-        textStyle: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.7)),
-        selectedTextStyle:
-            const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-        itemTextPadding: const EdgeInsets.only(left: 30),
-        selectedItemTextPadding: const EdgeInsets.only(left: 30),
-        itemDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
-          ),
-        ),
-        selectedItemDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: actionColor.withOpacity(0.37),
-          ),
-          color: Color.fromARGB(255, 253, 116, 123),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.28),
-              blurRadius: 30,
-            )
-          ],
-        ),
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
-          size: 20,
-        ),
-        selectedIconTheme: const IconThemeData(
-          color: Color.fromARGB(255, 255, 255, 255),
-          size: 20,
-        ),
-      ),
-      extendedTheme: const SidebarXTheme(
-        width: 250,
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 78, 78, 78),
-        ),
-      ),
-      //footerDivider: divider,
-      headerBuilder: (context, extended) {
-        return Container();
-      },
-      items: [
-        const SidebarXItem(
+        SidebarXItem(
           icon: Icons.logout,
           label: 'Logout',
+          onTap: () {
+            Navigator.pushReplacement(context,
+                new MaterialPageRoute(builder: (context) => new MyApp()));
+          },
         ),
       ],
     );
