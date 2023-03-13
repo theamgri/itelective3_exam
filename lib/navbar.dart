@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:maghari_flutter/homepage.dart';
 import 'package:maghari_flutter/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 //import 'package:flutter_application_1/rightnavbar.dart';
+
+import 'firebase_services.dart';
 
 void main() {
   runApp(LeftDrawer());
@@ -106,6 +109,7 @@ class left extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return SidebarX(
       controller: _controller,
       theme: SidebarXTheme(
@@ -166,31 +170,53 @@ class left extends StatelessWidget {
       footerDivider: divider,
       headerBuilder: (context, extended) {
         return SizedBox(
-            height: 150,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(35),
-                  ),
-                  image: DecorationImage(
-                      image: AssetImage(
-                        'assets/logo.png',
-                      ),
-                      fit: BoxFit.fill),
+          height: 250,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Welcome, ${user?.email}',
+                  style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15.0,
+                      height: 1.5,
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ),
-              ),
-            ));
+                Padding(padding: const EdgeInsets.all(10.0)),
+                Container(
+                  width: 120,
+                  height: 120,
+                  padding: EdgeInsets.only(
+                    bottom: 20,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    image: DecorationImage(
+                        image: AssetImage(
+                          'assets/logo.png',
+                        ),
+                        fit: BoxFit.fill),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
       items: [
         SidebarXItem(
           icon: Icons.home,
           label: 'Dashboard',
           onTap: () {
-            return Scaffold(body: Center(child: Text("Dashboard")));
+            return Scaffold(
+                body: Center(
+              child: Padding(padding: const EdgeInsets.all(1.0)),
+            ));
           },
         ),
         const SidebarXItem(
@@ -204,7 +230,8 @@ class left extends StatelessWidget {
         SidebarXItem(
           icon: Icons.logout,
           label: 'Logout',
-          onTap: () {
+          onTap: () async {
+            await FirebaseServices().signOut();
             Navigator.pushReplacement(context,
                 new MaterialPageRoute(builder: (context) => new MyApp()));
           },
@@ -302,6 +329,7 @@ String _getTitleByIndex(int index) {
   switch (index) {
     case 0:
       return 'Dashboard';
+
     case 1:
       return 'Projects';
 

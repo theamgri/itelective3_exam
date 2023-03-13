@@ -7,6 +7,7 @@ import 'package:cloud_firestore_web/cloud_firestore_web.dart';
 import 'package:banner_listtile/banner_listtile.dart';
 import 'package:flutter/material.dart';
 import 'package:maghari_flutter/models/items.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maghari_flutter/firebase_options.dart';
 import 'package:maghari_flutter/main.dart';
 import 'package:maghari_flutter/navbar.dart';
@@ -68,9 +69,12 @@ class _MyHomePageState extends State<MyHomePage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LeftDrawer(),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        body: Container(
+      child: LeftDrawer(),
+    )
+
+        // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 }
 
@@ -116,9 +120,13 @@ class _ForDataState extends State<ForData> {
   }
 
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+
     return Container(
       child: StreamBuilder<QuerySnapshot>(
           stream: _itemStream,
+          //stream: FirebaseAuth.instance.authStateChanges();
+
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {

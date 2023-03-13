@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maghari_flutter/google_sign_in.dart';
 import 'package:maghari_flutter/homepage.dart';
-import 'package:maghari_flutter/signup.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_services.dart';
 import 'firebase_options.dart';
-
+import 'package:maghari_flutter/main.dart';
 //com.example.maghari_flutter
 //1A:D2:28:0E:94:07:F9:8B:37:0B:0D:69:3C:D6:12:3E:03:65:20:60
 
@@ -18,11 +17,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(const SignUp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SignUp extends StatelessWidget {
+  const SignUp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -44,13 +43,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SignPage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class SignPage extends StatefulWidget {
+  const SignPage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -64,10 +63,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SignPage> createState() => _MySignPage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MySignPage extends State<SignPage> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
 
@@ -110,20 +109,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
         backgroundColor: NeumorphicTheme.baseColor(context),
         body: StreamBuilder<User?>(
-            // future: Provider.of(context, listen: false).auth.getCurrentUid(),
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Center(
                   //child: Text('Logged in as ${snapshot.data!.email}'),
                   child: MyApp2(),
+                  //child: MyApp(),
                 );
               } else {
                 return Center(
                     // Center is a layout widget. It takes a single child and positions it
                     child: Container(
                         height: 500,
-                        width: 650,
+                        width: 600,
                         decoration: BoxDecoration(
                           boxShadow: const [
                             BoxShadow(
@@ -274,138 +273,16 @@ class _MyHomePageState extends State<MyHomePage> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Container(
-                                  width: 200,
-                                  child: NeumorphicButton(
-                                    margin: EdgeInsets.only(top: 5),
-                                    onPressed: () async {
-                                      try {
-                                        UserCredential userCredential =
-                                            await FirebaseAuth.instance
-                                                .signInWithEmailAndPassword(
-                                          email: _emailController.text.trim(),
-                                          password: _passController.text.trim(),
-                                        );
-
-                                        showDialog(
-                                          context: context,
-                                          builder: (_) => AlertDialog(
-                                            title: Text('Login successful'),
-                                            content: Text(
-                                                'Logged in as ${userCredential.user!.email}!'),
-                                            actions: [
-                                              ElevatedButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text('OK'),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      } on FirebaseAuthException catch (e) {
-                                        if (e.code == 'user-not-found' ||
-                                            e.code == 'wrong-password') {
-                                          showDialog(
-                                            context: context,
-                                            builder: (_) => AlertDialog(
-                                              title: Text('Login failed'),
-                                              content: Text(
-                                                  'Invalid email or password'),
-                                              actions: [
-                                                ElevatedButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  child: Text('OK'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                      }
-                                    },
-                                    style: NeumorphicStyle(
-                                      color: Colors.grey.shade50,
-                                      shadowDarkColor:
-                                          Color.fromARGB(176, 110, 110, 110),
-                                      shadowLightColor:
-                                          Color.fromARGB(239, 207, 207, 207),
-                                      shape: NeumorphicShape.flat,
-                                      boxShape: NeumorphicBoxShape.roundRect(
-                                          BorderRadius.circular(10)),
-                                    ),
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      textAlign: TextAlign.center,
-                                      "Login",
-                                      style: TextStyle(
-                                        height: 0.8,
-                                        fontSize: 15,
-                                        fontFamily: 'Nunito',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color.fromARGB(111, 0, 0, 0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(padding: EdgeInsets.only(top: 3)),
-                                // Container(
-                                //   width: 200,
-                                //   child: NeumorphicButton(
-                                //       margin: EdgeInsets.only(top: 5),
-                                //       onPressed: () async {
-                                //         // await FirebaseServices()
-                                //         //     .SignInWithGoogle();
-                                //         //future: Provider.of<CLASSNAME>(context, listen: false).auth.getCurrentUid();
-                                //         final provider =
-                                //             Provider.of(context, listen: false);
-                                //         Provider.of<GoogleSignInProvider>(
-                                //             context,
-                                //             listen: false);
-                                //         provider.googleLogin();
-                                //         Navigator.pushReplacement(
-                                //             context,
-                                //             new MaterialPageRoute(
-                                //                 builder: (context) =>
-                                //                     new MyApp2()));
-                                //       },
-                                //       style: NeumorphicStyle(
-                                //         color: Colors.grey
-                                //             .shade50, // set the color to green
-                                //         shadowDarkColor: Color.fromARGB(
-                                //             176,
-                                //             110,
-                                //             110,
-                                //             110), // set the shadow color to green shade 700
-                                //         shadowLightColor:
-                                //             Color.fromARGB(239, 207, 207, 207),
-                                //         shape: NeumorphicShape.flat,
-                                //         boxShape: NeumorphicBoxShape.roundRect(
-                                //             BorderRadius.circular(10)),
-                                //       ),
-                                //       padding: const EdgeInsets.all(10.0),
-                                //       child: Text(
-                                //         textAlign: TextAlign.center,
-                                //         "Login with Google",
-                                //         style: TextStyle(
-                                //             height: 0.8,
-                                //             fontSize: 15,
-                                //             fontFamily: 'Nunito',
-                                //             fontWeight: FontWeight.w600,
-                                //             color:
-                                //                 Color.fromARGB(111, 0, 0, 0)),
-                                //       )),
-                                // ),
-                                // Padding(padding: EdgeInsets.only(top: 3)),
-                                Container(
                                     width: 200,
                                     child: NeumorphicButton(
                                         margin: EdgeInsets.only(top: 5),
                                         onPressed: () {
-                                          // FirebaseAuth.instance
-                                          //     .createUserWithEmailAndPassword(
-                                          //         email: _emailController.text
-                                          //             .trim(),
-                                          //         password: _passController.text
-                                          //             .trim());
+                                          FirebaseAuth.instance
+                                              .createUserWithEmailAndPassword(
+                                                  email: _emailController.text
+                                                      .trim(),
+                                                  password: _passController.text
+                                                      .trim());
                                           Navigator.pushReplacement(
                                               context,
                                               new MaterialPageRoute(
@@ -443,6 +320,45 @@ class _MyHomePageState extends State<MyHomePage> {
                                               color:
                                                   Color.fromARGB(117, 0, 0, 0)),
                                         ))),
+                                Padding(padding: EdgeInsets.only(top: 3)),
+                                Container(
+                                  width: 200,
+                                  child: NeumorphicButton(
+                                      margin: EdgeInsets.only(top: 5),
+                                      onPressed: () async {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (context) =>
+                                                    new MyApp()));
+                                      },
+                                      style: NeumorphicStyle(
+                                        color: Colors.grey
+                                            .shade50, // set the color to green
+                                        shadowDarkColor: Color.fromARGB(
+                                            176,
+                                            110,
+                                            110,
+                                            110), // set the shadow color to green shade 700
+                                        shadowLightColor:
+                                            Color.fromARGB(239, 207, 207, 207),
+                                        shape: NeumorphicShape.flat,
+                                        boxShape: NeumorphicBoxShape.roundRect(
+                                            BorderRadius.circular(10)),
+                                      ),
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Text(
+                                        textAlign: TextAlign.center,
+                                        "Go Back",
+                                        style: TextStyle(
+                                            height: 0.8,
+                                            fontSize: 15,
+                                            fontFamily: 'Nunito',
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                Color.fromARGB(111, 0, 0, 0)),
+                                      )),
+                                ),
                                 Padding(padding: EdgeInsets.only(top: 5)),
                               ],
                             )
