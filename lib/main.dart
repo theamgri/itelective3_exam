@@ -171,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
-                                    'Ateneo De Davao University',
+                                    'Project Planner. X',
                                     style: TextStyle(
                                         height: 0.4,
                                         fontSize: 40,
@@ -187,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Community Center',
+                                  'Login Here',
                                   style: TextStyle(
                                       height: 0.4,
                                       fontSize: 20,
@@ -196,15 +196,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                       color: Color.fromARGB(255, 0, 0, 0)),
                                 ),
                                 Padding(padding: EdgeInsets.only(top: 20)),
-                                Text(
-                                  'Asset Management System',
-                                  style: TextStyle(
-                                      height: 0.4,
-                                      fontSize: 20,
-                                      fontFamily: 'Nunito',
-                                      fontWeight: FontWeight.w300,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
+                                // Text(
+                                //   'Deliverables',
+                                //   style: TextStyle(
+                                //       height: 0.4,
+                                //       fontSize: 20,
+                                //       fontFamily: 'Nunito',
+                                //       fontWeight: FontWeight.w300,
+                                //       color: Color.fromARGB(255, 0, 0, 0)),
+                                // ),
                               ],
                             ),
                             Padding(padding: EdgeInsets.only(top: 10)),

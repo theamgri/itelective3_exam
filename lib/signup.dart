@@ -205,7 +205,7 @@ class _MySignPage extends State<SignPage> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
-                                    'Ateneo De Davao University',
+                                    'Project Planner. X',
                                     style: TextStyle(
                                         height: 0.4,
                                         fontSize: 40,
@@ -220,18 +220,18 @@ class _MySignPage extends State<SignPage> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Community Center',
-                                  style: TextStyle(
-                                      height: 0.4,
-                                      fontSize: 20,
-                                      fontFamily: 'Nunito',
-                                      fontWeight: FontWeight.w300,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
+                                // Text(
+                                //   'Register Here',
+                                //   style: TextStyle(
+                                //       height: 0.4,
+                                //       fontSize: 20,
+                                //       fontFamily: 'Nunito',
+                                //       fontWeight: FontWeight.w300,
+                                //       color: Color.fromARGB(255, 0, 0, 0)),
+                                // ),
                                 Padding(padding: EdgeInsets.only(top: 20)),
                                 Text(
-                                  'Asset Management System',
+                                  'Register Here',
                                   style: TextStyle(
                                       height: 0.4,
                                       fontSize: 20,
