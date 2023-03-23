@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maghari_flutter/google_sign_in.dart';
+
 import 'package:maghari_flutter/homepage.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,8 +26,6 @@ class SignUp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    create:
-    (context) => GoogleSignInProvider();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -70,6 +68,8 @@ class _MySignPage extends State<SignPage> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
 
+  get currentUser => null;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -89,6 +89,39 @@ class _MySignPage extends State<SignPage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void signUpWithEmailAndPassword(TextEditingController emailController,
+      TextEditingController passController) async {
+    String email = emailController.text;
+    String password = passController.text;
+
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      User? user = userCredential.user;
+      if (user != null) {
+        CollectionReference users =
+            FirebaseFirestore.instance.collection('users');
+        await users.doc(user.uid).set({
+          'email': email,
+          'password': password,
+          //'displayName': displayName,
+          // Add any additional user data you want to save here
+        });
+        print('User added in firebase successfully!');
+      } else {
+        print('Error creating user: User is null');
+      }
+    } catch (e) {
+      print('Error creating user: $e');
+    }
   }
 
   @override
@@ -277,6 +310,17 @@ class _MySignPage extends State<SignPage> {
                                     child: NeumorphicButton(
                                         margin: EdgeInsets.only(top: 5),
                                         onPressed: () {
+                                          String email = _emailController.text;
+                                          String password =
+                                              _passController.text;
+
+                                          // signUpWithEmailAndPassword(
+                                          //   _emailController,
+                                          //   _passController,
+                                          // );
+                                          signUpWithEmailAndPassword(
+                                              _emailController,
+                                              _passController);
                                           FirebaseAuth.instance
                                               .createUserWithEmailAndPassword(
                                                   email: _emailController.text
@@ -288,10 +332,6 @@ class _MySignPage extends State<SignPage> {
                                               new MaterialPageRoute(
                                                   builder: (context) =>
                                                       new SignUp()));
-                                          // NeumorphicTheme.of(context).themeMode =
-                                          //     NeumorphicTheme.isUsingDark(context)
-                                          //         ? ThemeMode.light
-                                          //         : ThemeMode.dark;
                                         },
                                         style: NeumorphicStyle(
                                           color: Colors.grey

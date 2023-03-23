@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maghari_flutter/google_sign_in.dart';
+
 import 'package:maghari_flutter/homepage.dart';
 import 'package:maghari_flutter/signup.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -27,8 +27,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    create:
-    (context) => GoogleSignInProvider();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -292,13 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             title: Text('Login successful'),
                                             content: Text(
                                                 'Logged in as ${userCredential.user!.email}!'),
-                                            actions: [
-                                              ElevatedButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text('OK'),
-                                              ),
-                                            ],
+                                            actions: [],
                                           ),
                                         );
                                       } on FirebaseAuthException catch (e) {
@@ -311,10 +303,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                               content: Text(
                                                   'Invalid email or password'),
                                               actions: [
-                                                ElevatedButton(
+                                                NeumorphicButton(
                                                   onPressed: () =>
                                                       Navigator.pop(context),
-                                                  child: Text('OK'),
+                                                  child: Text('Click Away'),
                                                 ),
                                               ],
                                             ),
@@ -347,74 +339,45 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),
                                 Padding(padding: EdgeInsets.only(top: 3)),
-                                // Container(
-                                //   width: 200,
-                                //   child: NeumorphicButton(
-                                //       margin: EdgeInsets.only(top: 5),
-                                //       onPressed: () async {
-                                //         // await FirebaseServices()
-                                //         //     .SignInWithGoogle();
-                                //         //future: Provider.of<CLASSNAME>(context, listen: false).auth.getCurrentUid();
-                                //         final provider =
-                                //             Provider.of(context, listen: false);
-                                //         Provider.of<GoogleSignInProvider>(
-                                //             context,
-                                //             listen: false);
-                                //         provider.googleLogin();
-                                //         Navigator.pushReplacement(
-                                //             context,
-                                //             new MaterialPageRoute(
-                                //                 builder: (context) =>
-                                //                     new MyApp2()));
-                                //       },
-                                //       style: NeumorphicStyle(
-                                //         color: Colors.grey
-                                //             .shade50, // set the color to green
-                                //         shadowDarkColor: Color.fromARGB(
-                                //             176,
-                                //             110,
-                                //             110,
-                                //             110), // set the shadow color to green shade 700
-                                //         shadowLightColor:
-                                //             Color.fromARGB(239, 207, 207, 207),
-                                //         shape: NeumorphicShape.flat,
-                                //         boxShape: NeumorphicBoxShape.roundRect(
-                                //             BorderRadius.circular(10)),
-                                //       ),
-                                //       padding: const EdgeInsets.all(10.0),
-                                //       child: Text(
-                                //         textAlign: TextAlign.center,
-                                //         "Login with Google",
-                                //         style: TextStyle(
-                                //             height: 0.8,
-                                //             fontSize: 15,
-                                //             fontFamily: 'Nunito',
-                                //             fontWeight: FontWeight.w600,
-                                //             color:
-                                //                 Color.fromARGB(111, 0, 0, 0)),
-                                //       )),
-                                // ),
-                                // Padding(padding: EdgeInsets.only(top: 3)),
+                                Container(
+                                    width: 200,
+                                    child: NeumorphicButton(
+                                      margin: EdgeInsets.only(top: 5),
+                                      onPressed: () async {},
+                                      style: NeumorphicStyle(
+                                        color: Colors.grey.shade50,
+                                        shadowDarkColor:
+                                            Color.fromARGB(176, 110, 110, 110),
+                                        shadowLightColor:
+                                            Color.fromARGB(239, 207, 207, 207),
+                                        shape: NeumorphicShape.flat,
+                                        boxShape: NeumorphicBoxShape.roundRect(
+                                            BorderRadius.circular(10)),
+                                      ),
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Text(
+                                        textAlign: TextAlign.center,
+                                        "Login as Admin",
+                                        style: TextStyle(
+                                          height: 0.8,
+                                          fontSize: 15,
+                                          fontFamily: 'Nunito',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color.fromARGB(111, 0, 0, 0),
+                                        ),
+                                      ),
+                                    )),
+                                Padding(padding: EdgeInsets.only(top: 3)),
                                 Container(
                                     width: 200,
                                     child: NeumorphicButton(
                                         margin: EdgeInsets.only(top: 5),
                                         onPressed: () {
-                                          // FirebaseAuth.instance
-                                          //     .createUserWithEmailAndPassword(
-                                          //         email: _emailController.text
-                                          //             .trim(),
-                                          //         password: _passController.text
-                                          //             .trim());
                                           Navigator.pushReplacement(
                                               context,
                                               new MaterialPageRoute(
                                                   builder: (context) =>
                                                       new SignUp()));
-                                          // NeumorphicTheme.of(context).themeMode =
-                                          //     NeumorphicTheme.isUsingDark(context)
-                                          //         ? ThemeMode.light
-                                          //         : ThemeMode.dark;
                                         },
                                         style: NeumorphicStyle(
                                           color: Colors.grey

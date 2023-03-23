@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maghari_flutter/create.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:maghari_flutter/homepage.dart';
 import 'package:maghari_flutter/main.dart';
@@ -180,7 +181,7 @@ class left extends StatelessWidget {
                   'Welcome, ${user?.email}',
                   style: TextStyle(
                       fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w800,
                       fontSize: 15.0,
                       height: 1.5,
                       color: Color.fromARGB(255, 0, 0, 0)),
@@ -209,23 +210,21 @@ class left extends StatelessWidget {
         );
       },
       items: [
+        const SidebarXItem(
+          icon: Icons.folder,
+          label: 'Projects',
+        ),
         SidebarXItem(
-          icon: Icons.home,
-          label: 'Dashboard',
+          icon: Icons.check_box,
+          label: 'My Tasks',
           onTap: () {
-            return Scaffold(
-                body: Center(
-              child: Padding(padding: const EdgeInsets.all(1.0)),
-            ));
+            // Navigator.pushReplacement(context,
+            //     new MaterialPageRoute(builder: (context) => new Create()));
           },
         ),
         const SidebarXItem(
-          icon: Icons.folder,
-          label: 'Settings',
-        ),
-        const SidebarXItem(
           icon: Icons.settings,
-          label: 'Profile',
+          label: 'Settings',
         ),
         SidebarXItem(
           icon: Icons.logout,
@@ -266,9 +265,12 @@ class _ScreensExample extends StatelessWidget {
             );
           case 2:
             return Scaffold(
-              body: Center(child: Text("Profile")),
+              body: Center(child: Text("Settings")),
             );
-
+          case 3:
+            return Scaffold(
+              body: Center(child: Text("Settings")),
+            );
           case 1:
             return Container(
               height: 450.0, //10% of screen height
